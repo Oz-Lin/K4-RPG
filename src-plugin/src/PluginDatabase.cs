@@ -42,6 +42,7 @@ public sealed partial class Plugin : BasePlugin
 			`SkillID` VARCHAR(255),
 			`PlayerSteamID` BIGINT UNSIGNED,
 			`Level` INT DEFAULT 1,
+            PRIMARY KEY (`PlayerSteamID`, `SkillID`), 
 			FOREIGN KEY (`PlayerSteamID`) REFERENCES `{tablePrefix}k4-rpg_players`(`SteamID`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
@@ -200,26 +201,61 @@ public sealed partial class Plugin : BasePlugin
 
 		try
 		{
-			foreach (RPGPlayer player in RPGPlayers)
-			{
-				string updateQuery = @$"
-                    UPDATE `{tablePrefix}k4-rpg_players`
-                    SET
-                        `Experience` = @Experience,
-                        `SkillPoints` = @SkillPoints,
-                        `LastSeen` = CURRENT_TIMESTAMP
-                    WHERE `SteamID` = @SteamID;";
+            foreach (RPGPlayer player in RPGPlayers)
+            {
+                // Update player's main data
+                await connection.ExecuteAsync($@"
+                UPDATE `{tablePrefix}k4-rpg_players`
+                SET `Experience` = @Experience,
+                    `SkillPoints` = @SkillPoints,
+                    `LastSeen` = CURRENT_TIMESTAMP
+                WHERE `SteamID` = @SteamID", 
+                    new { player.SteamID, player.Experience, player.SkillPoints }, transaction
+                );
 
-				await connection.ExecuteAsync(updateQuery, new { player.SteamID, player.Experience, player.SkillPoints }, transaction);
-			}
+                // Save skills with UPSERT
+                foreach (var skill in player.Skills)
+                {
+                    await connection.ExecuteAsync($@"
+                    INSERT INTO `{tablePrefix}k4-rpg_playerskills` 
+                        (PlayerSteamID, SkillID, Level)
+                    VALUES
+                        (@SteamID, @SkillID, @Level)
+                    ON DUPLICATE KEY UPDATE
+                        Level = VALUES(Level)",
+                        new
+                        {
+                            SteamID = player.SteamID,
+                            SkillID = skill.Key,
+                            Level = skill.Value
+                        },
+                        transaction
+                    );
+                }
+            }
+            transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+            Logger.LogError($"Error saving data: {ex.Message}");
+            throw;
+        }
+    }
 
-			transaction.Commit();
-		}
-		catch (Exception ex)
-		{
-			transaction.Rollback();
-			Logger.LogError($"Error saving all players data: {ex.Message}");
-			throw;
-		}
-	}
+    // Add this method to handle duplicate cleanup
+    public async Task CleanDuplicateSkillsAsync()
+    {
+        string tablePrefix = Config.DatabaseSettings.TablePrefix;
+        string cleanupQuery = @$"
+        DELETE ps1 FROM {tablePrefix}k4-rpg_playerskills ps1
+        INNER JOIN {tablePrefix}k4-rpg_playerskills ps2 
+        WHERE 
+            ps1.PlayerSteamID = ps2.PlayerSteamID AND
+            ps1.SkillID = ps2.SkillID AND
+            ps1.Level < ps2.Level";
+
+        using var connection = CreateConnection(Config);
+        await connection.ExecuteAsync(cleanupQuery);
+    }
 }
