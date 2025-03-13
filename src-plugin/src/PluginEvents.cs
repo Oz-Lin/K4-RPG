@@ -67,7 +67,12 @@ namespace K4RPG
 					}
 				}
 
-				Task.Run(() => SaveAllPlayersDataAsync());
+                Task.Run(() =>
+                {
+                    SaveAllPlayersDataAsync();
+                    CleanDuplicateSkillsAsync();
+                });
+				
 				return HookResult.Continue;
 			});
 		}
