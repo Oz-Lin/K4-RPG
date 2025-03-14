@@ -1,31 +1,39 @@
 <a name="readme-top"></a>
 
-![GitHub tag (with filter)](https://img.shields.io/github/v/tag/KitsuneLab-Development/K4-RPG?style=for-the-badge&label=Version)
-![GitHub Repo stars](https://img.shields.io/github/stars/KitsuneLab-Development/K4-RPG?style=for-the-badge)
-![GitHub issues](https://img.shields.io/github/issues/KitsuneLab-Development/K4-RPG?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/KitsuneLab-Development/K4-RPG?style=for-the-badge)
-![GitHub all releases](https://img.shields.io/github/downloads/KitsuneLab-Development/K4-RPG/total?style=for-the-badge)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/KitsuneLab-Development/K4-RPG/dev?style=for-the-badge)
+> [!WARNING]
+> Notes from Oz-Lin:
+> 
+> Forked from https://github.com/KitsuneLab-Development/K4-RPG - I just wanted to fix ![this issue](https://github.com/KitsuneLab-Development/K4-RPG/issues/7)
+>
+
+  
+
+![GitHub tag (with filter)](https://img.shields.io/github/v/tag/Oz-Lin/K4-RPG?style=for-the-badge&label=Version)
+![GitHub Repo stars](https://img.shields.io/github/stars/Oz-Lin/K4-RPG?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/Oz-Lin/K4-RPG?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/Oz-Lin/K4-RPG?style=for-the-badge)
+![GitHub all releases](https://img.shields.io/github/downloads/Oz-Lin/K4-RPG/total?style=for-the-badge)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/Oz-Lin/K4-RPG/dev?style=for-the-badge)
+
+
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/KitsuneLab-Development/K4-RPG">
+  <a href="https://github.com/Oz-Lin/K4-RPG">
     <img src="https://i.imgur.com/sej1ZzD.png" alt="Logo" width="400" height="256">
   </a>
   <h3 align="center">CounterStrike2 | K4-RPG</h3>
   <p align="center">
     A modular RPG like plugin for CounterStrike 2 that supports gaining experience and upgrading skills for players.
     <br />
-    <a href="https://github.com/KitsuneLab-Development/K4-RPG/releases">Download</a>
+    <a href="https://github.com/Oz-Lin/K4-RPG/releases">Download</a>
     ·
-    <a href="https://github.com/KitsuneLab-Development/K4-RPG/issues/new?assignees=KitsuneLab-Development&labels=bug&template=bug_report.md&title=%5BBUG%5D">Report Bug</a>
+    <a href="https://github.com/Oz-Lin/K4-RPG/issues/new?labels=bug&template=bug_report.md&title=%5BBUG%5D">Report Bug</a>
     ·
-    <a href="https://github.com/KitsuneLab-Development/K4-RPG/issues/new?assignees=KitsuneLab-Development&labels=enhancement&template=feature_request.md&title=%5BREQ%5D">Request Feature</a>
-     ·
-    <a href="https://kitsune-lab.com">Website</a>
-     ·
-    <a href="https://nests.kitsune-lab.com/tickets/create?department_id=2">Hire Us</a>
+    <a href="https://github.com/Oz-Lin/K4-RPG/issues/new?labels=enhancement&template=feature_request.md&title=%5BREQ%5D">Request Feature</a>
+     
+
   </p>
 </div>
 
@@ -67,9 +75,11 @@ All listed modules can be found within the modules folder:
 
 ## Roadmap
 
-- [ ] Create skills that the community wants
-- [ ] Create passive skills
-- [ ] Add center html menu whenever its added to CSS
+- [ ] ~~Create skills that the community wants~~ not planned in this fork
+- [ ] ~~Create passive skills~~ not planned in this fork
+- [ ] ~~Add center html menu whenever its added to CSS~~ Not planned in this fork. Use screen text HUD instead
+- [ ] Screen Text HUD (when updated)
+- [ ] World Text HUD (when updated)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -78,8 +88,9 @@ All listed modules can be found within the modules folder:
 ## Authors
 
 - [**K4ryuu**](https://github.com/K4ryuu) - _Initial work_
+- [**Oz-Lin**](https://github.com/Oz-Lin) - _Version 1.0.4 and onwards_
 
-See also the list of [contributors](https://github.com/KitsuneLab-Development/K4-RPG/graphs/contributors) who participated in this project as an outside contributor.
+See also the list of [contributors](https://github.com/Oz-Lin/K4-RPG/graphs/contributors) who participated in this project as an outside contributor.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -96,5 +107,6 @@ Distributed under the GPL-3.0 License. See `LICENSE.md` for more information.
 ## Contact
 
 - **KitsuneLab Team** - [contact@kitsune-lab.com](mailto:contact@kitsune-lab.com)
+- **Oz-Lin** - this repository forked from K4
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
