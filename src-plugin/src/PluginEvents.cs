@@ -2,6 +2,7 @@ namespace K4RPG
 {
 	using CounterStrikeSharp.API.Core;
 	using K4RPG.Models;
+    using Microsoft.Extensions.Logging;
 
 	public sealed partial class Plugin : BasePlugin
 	{
@@ -25,22 +26,34 @@ namespace K4RPG
 			});
 
 			RegisterEventHandler((EventPlayerSpawn @event, GameEventInfo info) =>
-			{
-				RPGPlayer? cPlayer = GetPlayer(@event.Userid);
+            {
+                RPGPlayer? cPlayer = GetPlayer(@event.Userid);
 
-				if (cPlayer is null || !cPlayer.IsValid)
-					return HookResult.Continue;
+                if (cPlayer is null || !cPlayer.IsValid)
+                    return HookResult.Continue;
 
-				cPlayer.Skills.ToList().ForEach(x =>
-				{
-					if (RPGSkills.FirstOrDefault(y => y.ID == x.Key) is RPGSkill skill)
-						skill.Apply(cPlayer.Controller, x.Value);
-				});
+                // Create a snapshot of skills
+                var skillsSnapshot = cPlayer.Skills.ToArray();
 
-				return HookResult.Continue;
-			}, HookMode.Post);
+                foreach (var (skillId, level) in skillsSnapshot)
+                {
+                    if (RPGSkills.FirstOrDefault(y => y.ID == skillId) is RPGSkill skill)
+                    {
+                        try
+                        {
+                            skill.Apply(cPlayer.Controller, level);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.LogError($"Error applying skill {skillId}: {ex.Message}");
+                        }
+                    }
+                }
 
-			RegisterEventHandler((EventPlayerDisconnect @event, GameEventInfo info) =>
+                return HookResult.Continue;
+            }, HookMode.Post);
+
+            RegisterEventHandler((EventPlayerDisconnect @event, GameEventInfo info) =>
 			{
 				RPGPlayer? cPlayer = GetPlayer(@event.Userid);
 
@@ -67,13 +80,13 @@ namespace K4RPG
 					}
 				}
 
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
-                    SaveAllPlayersDataAsync();
-                    CleanDuplicateSkillsAsync();
+                    await SaveAllPlayersDataAsync();
+                    await CleanDuplicateSkillsAsync();
                 });
-				
-				return HookResult.Continue;
+
+                return HookResult.Continue;
 			});
 		}
 	}
