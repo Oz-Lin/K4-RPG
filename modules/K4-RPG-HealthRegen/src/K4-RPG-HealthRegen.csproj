@@ -19,6 +19,7 @@
     </PackageReference>
     <Reference Include="K4-RPG-API">
       <HintPath>..\..\..\src-shared\K4-RPG-API.dll</HintPath>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
 </Project>
