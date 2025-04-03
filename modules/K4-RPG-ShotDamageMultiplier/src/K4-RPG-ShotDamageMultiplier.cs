@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Core.Capabilities;
@@ -51,8 +51,8 @@ namespace K4RPGSkillShotDMGMultiplier
 
 		// ** Plugin Settings ** //
 		public override string ModuleName => $"K4-RPG Addon - {SkillName}";
-		public override string ModuleAuthor => "K4ryuu";
-		public override string ModuleVersion => "1.0.1";
+		public override string ModuleAuthor => "K4ryuu + Oz-Lin";
+		public override string ModuleVersion => "1.0.2";
 
 		// ** Plugin Variables ** //
 		public required PluginConfig Config { get; set; } = new PluginConfig();
@@ -76,7 +76,7 @@ namespace K4RPGSkillShotDMGMultiplier
 
 				checkAPI.RegisterSkill(SkillUniqueID, SkillName, SkillDescription, Config.LevelSettings.Keys.Max(), prices, (player, level) =>
 				{
-					Multipliers.Add(player.SteamID, level);
+					Multipliers[player.SteamID] = level; // Use indexer instead
 				}, Config.FromLevel, Config.IsVIP);
 
 				if (Config.LoadNotifications)

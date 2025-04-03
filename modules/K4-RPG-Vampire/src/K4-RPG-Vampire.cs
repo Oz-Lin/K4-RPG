@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
@@ -59,8 +59,8 @@ namespace K4RPGSkillVampire
 
 		// ** Plugin Settings ** //
 		public override string ModuleName => $"K4-RPG Addon - {SkillName}";
-		public override string ModuleAuthor => "K4ryuu";
-		public override string ModuleVersion => "1.0.1";
+		public override string ModuleAuthor => "K4ryuu + Oz-Lin";
+		public override string ModuleVersion => "1.0.2";
 
 		// ** Plugin Variables ** //
 		public required PluginConfig Config { get; set; } = new PluginConfig();
@@ -84,7 +84,7 @@ namespace K4RPGSkillVampire
 
 				checkAPI.RegisterSkill(SkillUniqueID, SkillName, SkillDescription, Config.LevelSettings.Keys.Max(), prices, (player, level) =>
 				{
-					StealSettings.Add(player.SteamID, level);
+					StealSettings[player.SteamID] = level; // Use indexer instead
 				}, Config.FromLevel, Config.IsVIP);
 
 				if (Config.LoadNotifications)
